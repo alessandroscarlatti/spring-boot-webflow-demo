@@ -1,0 +1,58 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.6.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+/**
+ * Use this task to run the web application.
+ * The task will add web dependencies to the classpath.
+ * Otherwise, :bootRun will only run the command line application.
+ */
+task devServer(group: 'application') {
+	finalizedBy ':bootRun'
+	doLast {
+		dependencies {
+			compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+			compile 'org.springframework.boot:spring-boot-devtools'
+		}
+	}
+}
+
+test {
+	exclude '**/integration/**'
+}
+
+task integrationTest(type: Test, group: 'verification') {
+	include '**/integration/**'
+}
+
+
+dependencies {
+	compile 'org.springframework.boot:spring-boot-starter-amqp'
+	compile 'org.codehaus.groovy:groovy-all:2.4.7'
+	compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//	compile 'org.springframework.boot:spring-boot-devtools'  // using devtools causes the model class to be loaded with a different classloader than the application class, which causes Spring SPEL comparisons to fail!
+	compile 'org.springframework.webflow:spring-webflow:2.4.5.RELEASE'
+	testCompile 'org.springframework.boot:spring-boot-starter-test'
+	testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+	testCompile 'org.spockframework:spock-spring:1.1-groovy-2.4'
+	testCompile 'cglib:cglib-nodep:2.2'
+}

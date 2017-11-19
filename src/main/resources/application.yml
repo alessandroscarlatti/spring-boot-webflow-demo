@@ -1,0 +1,9 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+  thymeleaf:
+    cache: false
+
+server:
+  port: 8081
