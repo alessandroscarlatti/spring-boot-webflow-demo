@@ -1,1 +1,0 @@
-In IntelliJ use Recompile file to reload Thymeleaf template.
